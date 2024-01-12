@@ -48,10 +48,12 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlin.mvi)
             implementation(libs.kotlin.mvi.main)
+            implementation(libs.kstore)
         }
 
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kstore.file)
         }
 
         androidMain.dependencies {
@@ -60,16 +62,20 @@ kotlin {
             implementation(libs.compose.uitooling)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kstore.file)
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kstore.file)
+
         }
 
         jsMain.dependencies {
             implementation(compose.html.core)
+            implementation(libs.kstore.storage)
         }
 
     }
