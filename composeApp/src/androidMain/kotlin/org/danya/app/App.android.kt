@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import org.danya.app.di.appStorage
+import org.danya.app.di.initKoin
 
 class AndroidApp : Application() {
     companion object {
@@ -14,6 +16,7 @@ class AndroidApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initKoin()
         INSTANCE = this
     }
 }
@@ -21,7 +24,7 @@ class AndroidApp : Application() {
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        appStorage = filesDir.path
         setContent {
             App()
         }
