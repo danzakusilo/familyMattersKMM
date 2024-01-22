@@ -7,7 +7,7 @@ fun initKoin() {
     Napier.d("Init koin ran")
     startKoin {
         modules(
-            mainModule
+            mainModule, ktorClientModule
         )
     }
 }
