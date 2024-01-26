@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -43,6 +44,7 @@ kotlin {
             implementation(libs.ktor.core)
             implementation(libs.ktor.log)
             implementation(libs.ktor.cnegotiation)
+            implementation(libs.ktor.json)
             implementation(libs.composeIcons.featherIcons)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
@@ -65,6 +67,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kstore.file)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.auth)
         }
 
         jvmMain.dependencies {
