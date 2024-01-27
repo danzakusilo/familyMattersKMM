@@ -20,7 +20,8 @@ koin = "3.5.3"
 kotlinMVI = "3.3.0"
 kstore = "0.7.1"
 google-services = "4.4.0"
-firebase = "32.7.1"
+kmmfirebase = "1.11.1"
+javafirebase = "0.3.0"
 
 [libraries]
 
@@ -48,8 +49,10 @@ kotlin-mvi-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.r
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
 kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" }
 kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "kstore" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
-firebase-auth = { module = "com.google.firebase:firebase-auth" }
+
+kmmfirebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "kmmfirebase" }
+kmmfirebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "kmmfirebase" }
+kmmfirebase-jvm = { module = "dev.gitlive:firebase-java-sdk", version.ref = "javafirebase" }
 
 [plugins]
 

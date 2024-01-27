@@ -53,6 +53,8 @@ kotlin {
             implementation(libs.kotlin.mvi)
             implementation(libs.kotlin.mvi.main)
             implementation(libs.kstore)
+            implementation(libs.kmmfirebase.auth)
+            implementation(libs.kmmfirebase.firestore)
         }
 
         commonTest.dependencies {
@@ -67,8 +69,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kstore.file)
-            implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation(libs.firebase.auth)
         }
 
         jvmMain.dependencies {
@@ -76,7 +76,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kstore.file)
-
+            implementation(libs.kmmfirebase.jvm)
         }
 
         jsMain.dependencies {
