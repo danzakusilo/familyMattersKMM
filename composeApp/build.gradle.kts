@@ -20,7 +20,7 @@ kotlin {
 
     jvm()
 
-    js {
+    js(IR) {
         browser()
         binaries.executable()
     }
@@ -55,6 +55,7 @@ kotlin {
             implementation(libs.kstore)
             implementation(libs.kmmfirebase.auth)
             implementation(libs.kmmfirebase.firestore)
+            implementation(libs.viewmodel.compose)
         }
 
         commonTest.dependencies {
@@ -82,20 +83,21 @@ kotlin {
         jsMain.dependencies {
             implementation(compose.html.core)
             implementation(libs.kstore.storage)
+            implementation(npm("yarn", ""))
         }
 
     }
 }
 
 android {
-    namespace = "org.danya.app"
+    namespace = "com.danya.family"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
         targetSdk = 34
 
-        applicationId = "org.danya.app.androidApp"
+        applicationId = "com.danya.family"
         versionCode = 1
         versionName = "1.0.0"
     }
@@ -122,7 +124,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.danya.app.desktopApp"
+            packageName = "com.danya.app.desktopApp"
             packageVersion = "1.0.0"
         }
     }

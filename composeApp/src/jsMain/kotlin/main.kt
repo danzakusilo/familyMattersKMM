@@ -1,13 +1,14 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
-import org.danya.app.App
+import com.danya.app.ui.login.LoginScreen
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     onWasmReady {
         CanvasBasedWindow("FamilyApp") {
-            App()
+
+            LoginScreen()
         }
     }
 }
