@@ -9,7 +9,7 @@ compose-uitooling = "1.5.4"
 voyager = "1.0.0"
 composeImageLoader = "1.7.1"
 napier = "2.6.1"
-buildConfig = "4.1.1"
+buildConfig = "5.3.5"
 kotlinx-coroutines = "1.7.3"
 ktor = "2.3.7"
 composeIcons = "1.1.0"
@@ -23,6 +23,7 @@ google-services = "4.4.0"
 kmmfirebase = "1.11.1"
 javafirebase = "0.3.0"
 viewmodelcompose = "0.6.1"
+androidcrypto = "1.1.0-alpha06"
 [libraries]
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -54,6 +55,7 @@ kmmfirebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "kmmfir
 kmmfirebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "kmmfirebase" }
 kmmfirebase-jvm = { module = "dev.gitlive:firebase-java-sdk", version.ref = "javafirebase" }
 viewmodel-compose = { module = "io.github.hoc081098:kmp-viewmodel-compose", version.ref = "viewmodelcompose" }
+android-crypto = { module = "androidx.security:security-crypto", version.ref = "androidcrypto" }
 
 [plugins]
 

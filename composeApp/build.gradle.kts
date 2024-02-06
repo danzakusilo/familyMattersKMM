@@ -70,6 +70,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kstore.file)
+            implementation(libs.android.crypto)
         }
 
         jvmMain.dependencies {
@@ -135,6 +136,9 @@ compose.experimental {
 }
 
 buildConfig {
-    // BuildConfig configuration here.
-    // https://github.com/gmazzo/gradle-buildconfig-plugin#usage-in-kts
+    buildConfigField("FirebaseApiKey", "AIzaSyDwdhQ7MabioIAVpyuDmns-I03EcLiyTFM")
+    buildConfigField("firebaseAuthDomain", "familymatters-38c07.firebaseapp.com")
+    buildConfigField("firebaseProjectId", "familymatters-38c07")
+    buildConfigField("firebaseStorageBucket", "familymatters-38c07.appspot.com")
+    buildConfigField("firebaseApplicationId", "1=6720102597=web=a30b3b8887c47349a4d0c")
 }
