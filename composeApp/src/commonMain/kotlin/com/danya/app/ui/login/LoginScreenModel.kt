@@ -3,10 +3,8 @@ package com.danya.app.ui.login
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.danya.app.api.login.LoginApi
-import com.danya.app.models.Stockpile
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
-import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -18,6 +16,14 @@ class LoginScreenModel(private val loginApi: LoginApi) : ScreenModel {
     private val _authSuccessFull = MutableStateFlow(false)
     val authSuccessfull: StateFlow<Boolean>
         get() = _authSuccessFull
+
+    init {
+        screenModelScope.launch {
+            loginApi.checkUserLoggedIn().collectLatest {
+                _authSuccessFull.value = it.isSuccess && it.getOrNull() == true
+            }
+        }
+    }
 
     fun register(email: String, password: String) {
         screenModelScope.launch {
@@ -34,19 +40,9 @@ class LoginScreenModel(private val loginApi: LoginApi) : ScreenModel {
             }
         }
     }
-
-    fun testPostToFb() {
-        screenModelScope.launch {
-            val store = Firebase.firestore
-            store.collection("stockpile")
-            store.collection("stockpile").add(
-                Stockpile(values = mapOf("sour cream" to "None", "smetana" to "0.5"))
-            )
-        }
-    }
 }
 
 val loginModule = module {
     factory { LoginScreenModel(get()) }
-    single { LoginApi(get(), Firebase.auth) }
+    single { LoginApi(Firebase.auth) }
 }

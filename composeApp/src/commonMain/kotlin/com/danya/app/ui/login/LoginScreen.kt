@@ -40,7 +40,10 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.danya.app.theme.LocalThemeIsDark
+import com.danya.app.ui.home.HomeScreen
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -55,7 +58,11 @@ class LoginScreen : Screen, KoinComponent {
         var passwordVisibility by remember { mutableStateOf(false) }
         val viewModel = rememberScreenModel<LoginScreenModel> { get() }
         val loginState = viewModel.authSuccessfull.collectAsState()
+        val navigator = LocalNavigator.currentOrThrow
         var isNewAcc by remember { mutableStateOf(false) }
+        if (loginState.value) {
+            navigator.replace(HomeScreen())
+        }
         if (!loginState.value)
             Column(
                 modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)
@@ -122,7 +129,6 @@ class LoginScreen : Screen, KoinComponent {
                     onClick = {
                         if (isNewAcc) viewModel.register(email, password)
                         else viewModel.login(email, password)
-                        viewModel.testPostToFb()
                     },
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
                 ) {

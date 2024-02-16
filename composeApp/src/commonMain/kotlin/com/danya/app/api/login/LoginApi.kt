@@ -1,14 +1,12 @@
 package com.danya.app.api.login
 
-import com.danya.app.db.settings.Prefs
 import dev.gitlive.firebase.auth.AuthResult
 import dev.gitlive.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 
-class LoginApi(private val prefs: Prefs, private val auth: FirebaseAuth) : KoinComponent {
-    val token = prefs.sessionToken
+class LoginApi(private val auth: FirebaseAuth) : KoinComponent {
 
     suspend fun registration(email: String, password: String): Flow<Result<AuthResult>> {
         return flow {
@@ -25,6 +23,17 @@ class LoginApi(private val prefs: Prefs, private val auth: FirebaseAuth) : KoinC
         return flow {
             val request = try {
                 Result.success(auth.signInWithEmailAndPassword(email, password))
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+            emit(request)
+        }
+    }
+
+    suspend fun checkUserLoggedIn(): Flow<Result<Boolean?>> {
+        return flow {
+            val request = try {
+                Result.success(auth.currentUser?.getIdToken(true)?.isNotBlank())
             } catch (e: Exception) {
                 Result.failure(e)
             }
