@@ -1,9 +1,7 @@
 package com.danya.app.ui.login
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +19,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +33,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -47,34 +45,36 @@ fun LoginScreen() {
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     val viewModel = LoginViewModel()
-    val loginState = viewModel.name.collectAsState()
-    Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
-        if (loginState.value.isNotBlank()) {
-            Box(modifier = Modifier.background(Color.Red).size(45.dp))
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Login",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(16.dp).clickable {
-
-                }
-            )
-
-            Spacer(modifier = Modifier.weight(1.0f))
-
-            var isDark by LocalThemeIsDark.current
-            IconButton(
-                onClick = { isDark = !isDark }
+    val loginState = viewModel.authSuccessfull.collectAsState()
+    var isNewAcc by remember { mutableStateOf(false) }
+    if (!loginState.value)
+        Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+            Row(
+                horizontalArrangement = Arrangement.Center
             ) {
-                Icon(
-                    modifier = Modifier.padding(8.dp).size(20.dp),
-                    imageVector = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode,
-                    contentDescription = null
+                Text(
+                    text = "Login",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(16.dp).clickable {
+
+                    }
                 )
-            }
+
+                Spacer(modifier = Modifier.weight(1.0f))
+
+                var isDark by LocalThemeIsDark.current
+                Checkbox(isNewAcc, onCheckedChange = {
+                    isNewAcc = it
+                })
+                IconButton(
+                    onClick = { isDark = !isDark }
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(8.dp).size(20.dp),
+                        imageVector = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode,
+                        contentDescription = null
+                    )
+                }
         }
 
         OutlinedTextField(
@@ -109,7 +109,9 @@ fun LoginScreen() {
 
         Button(
             onClick = {
-                viewModel.register(email, password)
+                if (isNewAcc) viewModel.register(email, password)
+                else viewModel.login(email, password)
+                viewModel.testPostToFb()
             },
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
