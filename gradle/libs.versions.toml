@@ -30,6 +30,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 composeImageLoader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "composeImageLoader" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -54,7 +55,6 @@ kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "ks
 kmmfirebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "kmmfirebase" }
 kmmfirebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "kmmfirebase" }
 kmmfirebase-jvm = { module = "dev.gitlive:firebase-java-sdk", version.ref = "javafirebase" }
-viewmodel-compose = { module = "io.github.hoc081098:kmp-viewmodel-compose", version.ref = "viewmodelcompose" }
 android-crypto = { module = "androidx.security:security-crypto", version.ref = "androidcrypto" }
 
 [plugins]

@@ -38,6 +38,7 @@ kotlin {
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenmodel)
             implementation(libs.composeImageLoader)
             implementation(libs.napier)
             implementation(libs.kotlinx.coroutines.core)
@@ -55,7 +56,6 @@ kotlin {
             implementation(libs.kstore)
             implementation(libs.kmmfirebase.auth)
             implementation(libs.kmmfirebase.firestore)
-            implementation(libs.viewmodel.compose)
         }
 
         commonTest.dependencies {
