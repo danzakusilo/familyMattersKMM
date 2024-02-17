@@ -1,7 +1,8 @@
 import FamilyApp.composeApp.BuildConfig
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
-import com.danya.app.ui.login.LoginScreen
+import com.danya.app.App
+import com.danya.app.di.initKoin
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
@@ -18,9 +19,10 @@ fun main() {
             applicationId = BuildConfig.firebaseApplicationId
         )
     )
+    initKoin()
     onWasmReady {
         CanvasBasedWindow("FamilyApp") {
-            LoginScreen()
+            App()
         }
     }
 }

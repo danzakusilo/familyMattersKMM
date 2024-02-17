@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.danya.app.ui.stockpile.StockpileScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.BookOpen
 import compose.icons.feathericons.Calendar
@@ -32,13 +35,14 @@ class HomeScreen : Screen, KoinComponent {
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<HomeScreenModel> { get() }
+        val navigator = LocalNavigator.currentOrThrow
         Box(modifier = Modifier.fillMaxSize()) {
             ClickableBoxWithIcon(
                 icon = FeatherIcons.ShoppingBag,
                 text = "Stockpile",
                 modifier = Modifier.fillMaxSize(0.5f).align(Alignment.TopStart),
             ) {
-
+                navigator.push(StockpileScreen())
             }
             ClickableBoxWithIcon(
                 icon = FeatherIcons.BookOpen,
