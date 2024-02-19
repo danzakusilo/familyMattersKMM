@@ -4,5 +4,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Stockpile(
-    val values: Map<String, String>
+    val items: List<StockpileItemModel>
+)
+
+@Serializable
+data class StockpileItemModel(
+    val name: String,
+    val quant: String,
+    val price: String,
+    val imageUrl: String
 )
