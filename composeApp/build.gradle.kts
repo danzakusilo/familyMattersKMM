@@ -32,6 +32,7 @@ kotlin {
             }
         }
         commonMain.dependencies {
+            implementation("co.touchlab:kermit:2.0.3")
             implementation(compose.runtime)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)

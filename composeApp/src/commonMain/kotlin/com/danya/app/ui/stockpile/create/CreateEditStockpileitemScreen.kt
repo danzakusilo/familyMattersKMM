@@ -20,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import com.danya.app.ui.stockpile.model.CreateStockPileItemUIModel
+import com.danya.app.models.StockpileItemModel
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -33,7 +35,6 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
         var currentQuantText: String by remember { mutableStateOf("") }
         Box(modifier = Modifier.fillMaxSize()) {
             Column {
-
                 TextField(
                     value = nameText,
                     modifier = Modifier.fillMaxWidth()
@@ -66,9 +67,10 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
 
                 Button(onClick = {
                     screenModel.postNewItem(
-                        CreateStockPileItemUIModel(
+                        StockpileItemModel(
                             name = nameText,
-                            quant = currentQuantText
+                            quant = currentQuantText,
+                            userId = Firebase.auth.currentUser?.uid.toString()
                         )
                     )
                 }) {

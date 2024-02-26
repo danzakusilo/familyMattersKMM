@@ -20,7 +20,7 @@ import com.seiko.imageloader.rememberImagePainter
 
 @Composable
 fun StockpileItem(modifier: Modifier = Modifier, stockpileItemModel: StockpileItemModel) {
-    val imagePainter = rememberImagePainter(stockpileItemModel.imageUrl)
+    val imagePainter = stockpileItemModel.imageUrl?.let { rememberImagePainter(it) }
     Row(
         modifier = modifier.fillMaxWidth().border(
             shape = RoundedCornerShape(8.dp),
@@ -29,9 +29,11 @@ fun StockpileItem(modifier: Modifier = Modifier, stockpileItemModel: StockpileIt
         ).padding(8.dp)
     ) {
         Box(Modifier.clip(RoundedCornerShape(8.dp)).size(40.dp)) {
-            Image(
-                painter = imagePainter, contentDescription = null
-            )
+            if (imagePainter != null) {
+                Image(
+                    painter = imagePainter, contentDescription = null
+                )
+            }
         }
         Column {
             Text(stockpileItemModel.name, style = MaterialTheme.typography.bodyMedium)

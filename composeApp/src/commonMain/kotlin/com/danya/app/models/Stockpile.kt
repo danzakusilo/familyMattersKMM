@@ -11,6 +11,11 @@ data class Stockpile(
 data class StockpileItemModel(
     val name: String,
     val quant: String,
-    val price: String,
-    val imageUrl: String
-)
+    val price: String? = null,
+    val imageUrl: String? = null,
+    override val userId: String
+): FirebaseAuthSensitiveItem
+
+interface FirebaseAuthSensitiveItem {
+    val userId: String
+}
