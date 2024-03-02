@@ -3,6 +3,7 @@ package com.danya.app.ui.login
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.danya.app.api.login.LoginApi
+import com.danya.app.models.User
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,17 @@ class LoginScreenModel(private val loginApi: LoginApi) : ScreenModel {
         screenModelScope.launch {
             loginApi.registration(email, password).collectLatest {
                 _authSuccessFull.value = it.isSuccess
+                if (it.isSuccess) {
+                    Firebase.auth.currentUser?.let { authUser ->
+                        loginApi.writeInMirrorUserDb(
+                            newUser = User(
+                                id = authUser.uid,
+                                name = authUser.displayName,
+                                pfpUrl = authUser.photoURL
+                            )
+                        )
+                    }
+                }
             }
         }
     }
@@ -37,6 +49,17 @@ class LoginScreenModel(private val loginApi: LoginApi) : ScreenModel {
         screenModelScope.launch {
             loginApi.login(email, password).collectLatest {
                 _authSuccessFull.value = it.isSuccess
+                if (it.isSuccess) {
+                    Firebase.auth.currentUser?.let { authUser ->
+                        loginApi.writeInMirrorUserDb(
+                            newUser = User(
+                                id = authUser.uid,
+                                name = authUser.displayName,
+                                pfpUrl = authUser.photoURL
+                            )
+                        )
+                    }
+                }
             }
         }
     }
