@@ -49,17 +49,6 @@ class LoginScreenModel(private val loginApi: LoginApi) : ScreenModel {
         screenModelScope.launch {
             loginApi.login(email, password).collectLatest {
                 _authSuccessFull.value = it.isSuccess
-                if (it.isSuccess) {
-                    Firebase.auth.currentUser?.let { authUser ->
-                        loginApi.writeInMirrorUserDb(
-                            newUser = User(
-                                id = authUser.uid,
-                                name = authUser.displayName,
-                                pfpUrl = authUser.photoURL
-                            )
-                        )
-                    }
-                }
             }
         }
     }

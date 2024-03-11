@@ -1,13 +1,9 @@
 package com.danya.app.ui.stockpile
 
 import co.touchlab.kermit.Logger
-import co.touchlab.kermit.Logger.Companion
 import com.danya.app.models.StockpileItemModel
 import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.app
 import dev.gitlive.firebase.auth.auth
-import dev.gitlive.firebase.firestore.Filter
-import dev.gitlive.firebase.firestore.FilterBuilder
 import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +38,7 @@ class StockpileApiIml : StockpileApi {
                     }.get().documents.map {
                         it.data<StockpileItemModel>()
                     })
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Logger.e(this::class.simpleName.toString(), e)
                 Result.failure(e)
             }

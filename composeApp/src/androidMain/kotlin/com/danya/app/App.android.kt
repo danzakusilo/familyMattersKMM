@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.danya.app.di.initKoin
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.firestore.firestore
 
 class FamilyApplication : Application() {
     companion object {
@@ -23,7 +25,7 @@ class FamilyApplication : Application() {
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Firebase.firestore.setLoggingEnabled(true)
         setContent {
             App()
         }
