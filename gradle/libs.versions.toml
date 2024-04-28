@@ -24,6 +24,7 @@ kmmfirebase = "1.11.1"
 javafirebase = "0.3.0"
 viewmodelcompose = "0.6.1"
 androidcrypto = "1.1.0-alpha06"
+ksoup = "0.1.2"
 [libraries]
 
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -56,6 +57,7 @@ kmmfirebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "kmmfir
 kmmfirebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "kmmfirebase" }
 kmmfirebase-jvm = { module = "dev.gitlive:firebase-java-sdk", version.ref = "javafirebase" }
 android-crypto = { module = "androidx.security:security-crypto", version.ref = "androidcrypto" }
+ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
 
 [plugins]
 

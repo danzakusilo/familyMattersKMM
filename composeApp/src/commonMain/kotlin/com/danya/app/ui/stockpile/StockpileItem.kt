@@ -12,14 +12,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.danya.app.models.StockpileItemModel
 import com.seiko.imageloader.rememberImagePainter
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.ShoppingCart
 
 @Composable
 fun StockpileItem(modifier: Modifier = Modifier, stockpileItemModel: StockpileItemModel) {
+    // todo use imageUrl
     val imagePainter = stockpileItemModel.imageUrl?.let { rememberImagePainter(it) }
     Row(
         modifier = modifier.fillMaxWidth().border(
@@ -28,19 +33,31 @@ fun StockpileItem(modifier: Modifier = Modifier, stockpileItemModel: StockpileIt
             color = MaterialTheme.colorScheme.primary
         ).padding(8.dp)
     ) {
-        Box(Modifier.clip(RoundedCornerShape(8.dp)).size(40.dp)) {
-            if (imagePainter != null) {
-                Image(
-                    painter = imagePainter, contentDescription = null
-                )
-            }
+        Box(
+            Modifier.clip(RoundedCornerShape(8.dp)).border(
+                width = 1.dp,
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.primary
+            ).size(40.dp)
+        ) {
+            Image(
+                imageVector = FeatherIcons.ShoppingCart, contentDescription = null, modifier.align(
+                    Alignment.Center
+                ).size(25.dp)
+            )
         }
-        Column {
-            Text(stockpileItemModel.name, style = MaterialTheme.typography.bodyMedium)
+        Row(Modifier.padding(start = 14.dp)) {
             Text(
-                stockpileItemModel.quant,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 14.dp)
+                stockpileItemModel.name,
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            Text(
+                "-",
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            Text(
+                stockpileItemModel.quant.value.toString(),
+                style = MaterialTheme.typography.headlineSmall,
             )
         }
     }

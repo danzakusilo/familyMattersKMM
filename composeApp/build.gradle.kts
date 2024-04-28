@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.kstore)
             implementation(libs.kmmfirebase.auth)
             implementation(libs.kmmfirebase.firestore)
+            implementation(libs.ksoup)
         }
 
         commonTest.dependencies {
