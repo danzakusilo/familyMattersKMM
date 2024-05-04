@@ -1,0 +1,7 @@
+<resources>
+    <string name="quant_type_volume">Об'єм</string>
+    <string name="quant_type_amount">Кількість</string>
+    <string name="quant_type_percentage">%</string>
+    <string name="title">Назва</string>
+    <string name="initial_value_title">Кількість на момент додавання</string>
+</resources>
