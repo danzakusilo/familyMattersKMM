@@ -12,10 +12,7 @@ import familyapp.composeapp.generated.resources.weight_measurement
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.StringResource
 
-@Serializable
-data class Stockpile(
-    val items: List<StockpileItemModel>
-)
+typealias Stockpile = Set<StockpileItemModel>
 
 @Serializable
 data class StockpileItemModel(
