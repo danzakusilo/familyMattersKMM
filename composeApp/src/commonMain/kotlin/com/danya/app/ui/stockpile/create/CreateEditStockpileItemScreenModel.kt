@@ -4,6 +4,9 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.danya.app.models.StockpileItemModel
 import com.danya.app.ui.stockpile.StockpileApi
+import com.danya.app.ui.stockpile.StockpileInputModel
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -16,10 +19,41 @@ class CreateEditStockpileItemScreenModel(private val api: StockpileApi) : Screen
     val newItemCreatedResponse: StateFlow<Boolean?>
         get() = _newItemCreatedResponse
 
-    fun postNewItem(input: StockpileItemModel) {
+    private val _quantErrorVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val quantErrorVisible: StateFlow<Boolean>
+        get() = _quantErrorVisible
+
+    private val _limitErrorVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val limitErrorVisible: StateFlow<Boolean>
+        get() = _limitErrorVisible
+
+    private val _postErrorVisible: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val postErrorVisible: StateFlow<Boolean?>
+        get() = _postErrorVisible
+
+    fun postNewItem(input: StockpileInputModel) {
+        val initialQuantValid = input.quantType.evalValueInRange(input.value.toFloat())
+        val bottomLimitQuantValue =
+            input.quantType.evalValueInRange(input.bottomLimitValue.toFloat())
         screenModelScope.launch {
-            api.postNewItem(input).collectLatest {
-                _newItemCreatedResponse.value = it.isSuccess
+            if (initialQuantValid && bottomLimitQuantValue) {
+                val postObject = StockpileItemModel(
+                    name = input.name,
+                    imageUrl = null,
+                    price = null,
+                    quantType = input.quantType,
+                    initialValue = input.value.toFloat(),
+                    bottomLimitValue = input.bottomLimitValue.toFloat(),
+                    userId = Firebase.auth.currentUser?.uid
+                        ?: throw AssertionError("User not authenticated when posting new stockpile item")
+                )
+                _quantErrorVisible.value = false
+                api.postNewItem(postObject).collectLatest {
+                    _newItemCreatedResponse.value = it.isSuccess
+                    _postErrorVisible.value = it.isFailure
+                }
+            } else {
+                _quantErrorVisible.value = true
             }
         }
     }

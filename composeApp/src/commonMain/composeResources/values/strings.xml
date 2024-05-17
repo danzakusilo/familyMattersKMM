@@ -6,8 +6,10 @@
     <string name="title">Назва</string>
     <string name="initial_value_title">Кількість на момент додавання</string>
     <string name="bottom_limit_title">Нижній ліміт кількості (продукти в дефіциті будут особливо позначені в списку)</string>
+    <string name="submit">Додати</string>
     <string name="volume_measurement">л</string>
     <string name="amount_measurement">шт</string>
     <string name="percentage_measurement">%</string>
     <string name="weight_measurement">г</string>
+    <string name="value_out_of_range">Значення поза межами</string>
 </resources>

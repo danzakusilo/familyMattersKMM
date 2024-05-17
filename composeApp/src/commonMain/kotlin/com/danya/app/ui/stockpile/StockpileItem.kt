@@ -56,7 +56,7 @@ fun StockpileItem(modifier: Modifier = Modifier, stockpileItemModel: StockpileIt
                 style = MaterialTheme.typography.headlineMedium,
             )
             Text(
-                stockpileItemModel.quant.value.toString(),
+                stockpileItemModel.quantType.toString(),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }

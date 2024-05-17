@@ -17,18 +17,14 @@ typealias Stockpile = Set<StockpileItemModel>
 @Serializable
 data class StockpileItemModel(
     val name: String,
-    val quant: StockpileItemQuant,
+    val quantType: StockpileQuantType,
+    val initialValue: Float,
+    val bottomLimitValue: Float,
     val price: String? = null,
     val imageUrl: String? = null,
     override val userId: String,
     override val familyId: String? = null
 ) : FirebaseAuthSensitiveItem
-
-@Serializable
-data class StockpileItemQuant(
-    val unit: StockpileQuantType,
-    val value: Float
-)
 
 @Serializable
 sealed class StockpileQuantType(private val range: Pair<Float, Float>) {

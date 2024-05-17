@@ -10,17 +10,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -40,9 +43,12 @@ import com.danya.app.models.StockpileQuantType
 import com.danya.app.models.Volume
 import com.danya.app.models.Weight
 import com.danya.app.ui.common.clearBackground
+import com.danya.app.ui.stockpile.StockpileInputModel
 import familyapp.composeapp.generated.resources.Res
 import familyapp.composeapp.generated.resources.bottom_limit_title
+import familyapp.composeapp.generated.resources.value_out_of_range
 import familyapp.composeapp.generated.resources.initial_value_title
+import familyapp.composeapp.generated.resources.submit
 import familyapp.composeapp.generated.resources.title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.component.KoinComponent
@@ -59,6 +65,8 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
         var limitDropdownVisible by remember { mutableStateOf(false) }
         var initialDropdownVisible by remember { mutableStateOf(false) }
         var currentQuantType by remember { mutableStateOf<StockpileQuantType>(Amount) }
+        val isInitialQuantError by screenModel.quantErrorVisible.collectAsState()
+        val isLimitError by screenModel.limitErrorVisible.collectAsState()
         Box(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 36.dp)) {
             Column {
                 Text(
@@ -66,15 +74,27 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                     style = MaterialTheme.typography.headlineSmall,
                     text = stringResource(Res.string.title)
                 )
-                TextField(
-                    modifier = Modifier
-                        .padding(top = 16.dp).fillMaxWidth()
-                        .clip(RoundedCornerShape(6.dp))
-                        .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
-                        .background(Color.Transparent),
-                    value = nameText, onValueChange = {
+                OutlinedTextField(
+                    modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(top = 16.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    value = nameText,
+                    onValueChange = {
                         nameText = it
-                    }, colors = TextFieldDefaults.clearBackground()
+                    },
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.headlineLarge,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    supportingText = {
+                        if (isInitialQuantError){
+                            Text(
+                                text = stringResource(Res.string.value_out_of_range),
+                                color = Color.Red
+                            )
+                        }
+                    }
                 )
                 /*
                 Initial value title and input
@@ -85,23 +105,32 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Row(modifier = Modifier.padding(top = 16.dp)) {
-                    TextField(
-                        modifier = Modifier.size(width = 140.dp, height = 64.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.wrapContentHeight()
                             .weight(7f),
+                        shape = RoundedCornerShape(8.dp),
                         value = currentQuantText,
                         onValueChange = {
                             currentQuantText = it
                         },
                         singleLine = true,
                         textStyle = MaterialTheme.typography.headlineLarge,
-                        colors = TextFieldDefaults.clearBackground(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                        colors = OutlinedTextFieldDefaults.colors(
+                            unfocusedBorderColor = Color.Black
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        supportingText = {
+                            if (isInitialQuantError){
+                                Text(
+                                    text = stringResource(Res.string.value_out_of_range),
+                                    color = Color.Red
+                                )
+                            }
+                        }
                     )
                     Box(
                         modifier = Modifier.padding(start = 16.dp)
-                            .size(width = 80.dp, height = 64.dp)
+                            .size(width = 80.dp, height = 70.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(
                                 1.dp, Color.Black, RoundedCornerShape(6.dp)
@@ -128,23 +157,32 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Row(modifier = Modifier.padding(top = 16.dp)) {
-                    TextField(
-                        modifier = Modifier.size(width = 140.dp, height = 64.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.wrapContentHeight()
                             .weight(7f),
+                        shape = RoundedCornerShape(8.dp),
                         value = limitText,
                         onValueChange = {
                             limitText = it
                         },
                         singleLine = true,
                         textStyle = MaterialTheme.typography.headlineLarge,
-                        colors = TextFieldDefaults.clearBackground(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                        colors = OutlinedTextFieldDefaults.colors(
+                            unfocusedBorderColor = Color.Black
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        supportingText = {
+                            if (isLimitError){
+                                Text(
+                                    text = stringResource(Res.string.value_out_of_range),
+                                    color = Color.Red
+                                )
+                            }
+                        }
                     )
                     Box(
                         modifier = Modifier.padding(start = 16.dp)
-                            .size(width = 80.dp, height = 64.dp)
+                            .size(width = 80.dp, height = 70.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(
                                 1.dp, Color.Black, RoundedCornerShape(6.dp)
@@ -168,48 +206,70 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                     }
                 }
             }
+            Button(
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.BottomCenter),
+                colors = ButtonDefaults.buttonColors(),
+                onClick = {
+                    screenModel.postNewItem(
+                        StockpileInputModel(
+                            name = nameText,
+                            bottomLimitValue = limitText,
+                            value = currentQuantText,
+                            quantType = currentQuantType
+                        )
+                    )
+                },
+                enabled = currentQuantText.isNotBlank() && nameText.isNotBlank() && limitText.isNotBlank()
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    style = MaterialTheme.typography.headlineLarge,
+                    text = stringResource(Res.string.submit)
+                )
+            }
         }
     }
-}
 
-@Composable
-private fun QuantTypeSelectDropdown(
-    expanded: Boolean,
-    onDismiss: () -> Unit,
-    onOptionSelected: (StockpileQuantType) -> Unit
-) {
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = onDismiss
+    @Composable
+    private fun QuantTypeSelectDropdown(
+        expanded: Boolean,
+        onDismiss: () -> Unit,
+        onOptionSelected: (StockpileQuantType) -> Unit
     ) {
-        DropdownMenuItem(
-            text = { Text(stringResource(Volume.getNameRes())) },
-            onClick = {
-                onOptionSelected(Volume)
-                onDismiss()
-            }
-        )
-        DropdownMenuItem(
-            text = { Text(stringResource(Amount.getNameRes())) },
-            onClick = {
-                onOptionSelected(Amount)
-                onDismiss()
-            }
-        )
-        DropdownMenuItem(
-            text = { Text(stringResource(Percentage.getNameRes())) },
-            onClick = {
-                onOptionSelected(Percentage)
-                onDismiss()
-            }
-        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onDismiss
+        ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(Volume.getNameRes())) },
+                onClick = {
+                    onOptionSelected(Volume)
+                    onDismiss()
+                }
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(Amount.getNameRes())) },
+                onClick = {
+                    onOptionSelected(Amount)
+                    onDismiss()
+                }
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(Percentage.getNameRes())) },
+                onClick = {
+                    onOptionSelected(Percentage)
+                    onDismiss()
+                }
+            )
 
-        DropdownMenuItem(
-            text = { Text(stringResource(Weight.getNameRes())) },
-            onClick = {
-                onOptionSelected(Weight)
-                onDismiss()
-            }
-        )
+            DropdownMenuItem(
+                text = { Text(stringResource(Weight.getNameRes())) },
+                onClick = {
+                    onOptionSelected(Weight)
+                    onDismiss()
+                }
+            )
+        }
     }
 }
