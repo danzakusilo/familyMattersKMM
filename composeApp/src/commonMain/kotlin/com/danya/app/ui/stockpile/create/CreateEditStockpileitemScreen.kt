@@ -21,8 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,7 +40,6 @@ import com.danya.app.models.Percentage
 import com.danya.app.models.StockpileQuantType
 import com.danya.app.models.Volume
 import com.danya.app.models.Weight
-import com.danya.app.ui.common.clearBackground
 import com.danya.app.ui.stockpile.StockpileInputModel
 import familyapp.composeapp.generated.resources.Res
 import familyapp.composeapp.generated.resources.bottom_limit_title
@@ -54,7 +51,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class CreateEditStockpileItemScreen : Screen, KoinComponent {
+class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinComponent {
 
     @Composable
     override fun Content() {
@@ -88,7 +85,7 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     supportingText = {
-                        if (isInitialQuantError){
+                        if (isInitialQuantError) {
                             Text(
                                 text = stringResource(Res.string.value_out_of_range),
                                 color = Color.Red
@@ -120,7 +117,7 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         supportingText = {
-                            if (isInitialQuantError){
+                            if (isInitialQuantError) {
                                 Text(
                                     text = stringResource(Res.string.value_out_of_range),
                                     color = Color.Red
@@ -172,7 +169,7 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         supportingText = {
-                            if (isLimitError){
+                            if (isLimitError) {
                                 Text(
                                     text = stringResource(Res.string.value_out_of_range),
                                     color = Color.Red
@@ -271,5 +268,9 @@ class CreateEditStockpileItemScreen : Screen, KoinComponent {
                 }
             )
         }
+    }
+
+    enum class Mode {
+        Edit, Create
     }
 }

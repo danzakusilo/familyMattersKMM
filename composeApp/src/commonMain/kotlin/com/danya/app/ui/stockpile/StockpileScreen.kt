@@ -33,6 +33,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.danya.app.ui.searchList.SearchScreen
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen
+import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
 import org.koin.core.component.KoinComponent
@@ -77,7 +78,7 @@ class StockpileScreen : Screen, KoinComponent {
                 ) {
                     DropdownMenuItem(
                         text = { Text("Create item") },
-                        onClick = { navigator.push(CreateEditStockpileItemScreen()) }
+                        onClick = { navigator.push(CreateEditStockpileItemScreen(Create)) }
                     )
                     DropdownMenuItem(
                         text = { Text("Search Tavria") },
