@@ -41,7 +41,7 @@ class CreateEditStockpileItemScreenModel(private val api: StockpileApi) : Screen
                     name = input.name,
                     imageUrl = null,
                     price = null,
-                    quantType = input.quantType,
+                    quantType = input.quantType.name,
                     initialValue = input.value.toFloat(),
                     bottomLimitValue = input.bottomLimitValue.toFloat(),
                     userId = Firebase.auth.currentUser?.uid

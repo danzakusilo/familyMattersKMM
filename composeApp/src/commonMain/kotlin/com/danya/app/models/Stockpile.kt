@@ -17,7 +17,7 @@ typealias Stockpile = Set<StockpileItemModel>
 @Serializable
 data class StockpileItemModel(
     val name: String,
-    val quantType: StockpileQuantType,
+    val quantType: String,
     val initialValue: Float,
     val bottomLimitValue: Float,
     val price: String? = null,
@@ -27,7 +27,7 @@ data class StockpileItemModel(
 ) : FirebaseAuthSensitiveItem
 
 @Serializable
-sealed class StockpileQuantType(private val range: Pair<Float, Float>) {
+sealed class StockpileQuantType(private val range: Pair<Float, Float>, val name: String) {
     fun evalValueInRange(value: Float): Boolean {
         return value > range.first && value < range.second
     }
@@ -37,7 +37,8 @@ sealed class StockpileQuantType(private val range: Pair<Float, Float>) {
     abstract fun getNameRes(): StringResource
 }
 
-data object Volume : StockpileQuantType(Pair(0f, 10000f)) {
+@Serializable
+data object Volume : StockpileQuantType(Pair(0f, 10000f), "Volume") {
     override fun getMeasurementRes(): StringResource {
         return Res.string.volume_measurement
     }
@@ -47,7 +48,8 @@ data object Volume : StockpileQuantType(Pair(0f, 10000f)) {
     }
 }
 
-data object Amount : StockpileQuantType(Pair(0f, 100f)) {
+@Serializable
+data object Amount : StockpileQuantType(Pair(0f, 100f), "Amount") {
     override fun getMeasurementRes(): StringResource {
         return Res.string.amount_measurement
     }
@@ -57,7 +59,8 @@ data object Amount : StockpileQuantType(Pair(0f, 100f)) {
     }
 }
 
-data object Percentage : StockpileQuantType(Pair(0f, 100f)) {
+@Serializable
+data object Percentage : StockpileQuantType(Pair(0f, 100f), "Percentage") {
     override fun getMeasurementRes(): StringResource {
         return Res.string.percentage_measurement
     }
@@ -67,7 +70,8 @@ data object Percentage : StockpileQuantType(Pair(0f, 100f)) {
     }
 }
 
-data object Weight : StockpileQuantType(Pair(0f, 99999f)) {
+@Serializable
+data object Weight : StockpileQuantType(Pair(0f, 99999f), "Weight") {
     override fun getMeasurementRes(): StringResource {
         return Res.string.weight_measurement
     }
