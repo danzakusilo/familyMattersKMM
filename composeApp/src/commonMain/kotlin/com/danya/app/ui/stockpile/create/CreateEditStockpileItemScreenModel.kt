@@ -44,6 +44,7 @@ class CreateEditStockpileItemScreenModel(private val api: StockpileApi) : Screen
                     quantType = input.quantType.name,
                     initialValue = input.value.toFloat(),
                     bottomLimitValue = input.bottomLimitValue.toFloat(),
+                    category = input.selectedCategory.name,
                     userId = Firebase.auth.currentUser?.uid
                         ?: throw AssertionError("User not authenticated when posting new stockpile item")
                 )

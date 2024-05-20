@@ -1,4 +1,4 @@
-package com.danya.app.ui.searchList
+package com.danya.app.ui.stockpile.list
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -19,17 +19,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import com.danya.app.models.StockpileItemModel
-import com.danya.app.ui.stockpile.StockpileItem
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 class SearchScreen : Screen, KoinComponent {
     @Composable
+    @Preview
     override fun Content() {
         val screenModel = rememberScreenModel<SearchScreenModel> { get() }
         var searchText by remember { mutableStateOf("") }
-        val items by remember { mutableStateOf(listOf<StockpileItemModel>()) }
+        val items by remember { mutableStateOf(listOf<StockpileListModel>()) }
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)) {
             TextField(
                 value = searchText,

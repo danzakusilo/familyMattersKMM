@@ -1,6 +1,5 @@
 package com.danya.app.ui.stockpile.create
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -35,18 +34,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import com.danya.app.models.Amount
-import com.danya.app.models.Percentage
-import com.danya.app.models.StockpileQuantType
-import com.danya.app.models.Volume
-import com.danya.app.models.Weight
 import com.danya.app.ui.stockpile.StockpileInputModel
+import com.danya.app.ui.stockpile.list.Amount
+import com.danya.app.ui.stockpile.list.Percentage
+import com.danya.app.ui.stockpile.list.StockpileQuantType
+import com.danya.app.ui.stockpile.list.Undefined
+import com.danya.app.ui.stockpile.list.Volume
+import com.danya.app.ui.stockpile.list.Weight
 import familyapp.composeapp.generated.resources.Res
 import familyapp.composeapp.generated.resources.bottom_limit_title
-import familyapp.composeapp.generated.resources.value_out_of_range
 import familyapp.composeapp.generated.resources.initial_value_title
 import familyapp.composeapp.generated.resources.submit
 import familyapp.composeapp.generated.resources.title
+import familyapp.composeapp.generated.resources.value_out_of_range
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -213,7 +213,8 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                             name = nameText,
                             bottomLimitValue = limitText,
                             value = currentQuantText,
-                            quantType = currentQuantType
+                            quantType = currentQuantType,
+                            selectedCategory = Undefined
                         )
                     )
                 },

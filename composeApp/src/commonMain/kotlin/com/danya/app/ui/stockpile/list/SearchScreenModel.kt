@@ -1,4 +1,4 @@
-package com.danya.app.ui.searchList
+package com.danya.app.ui.stockpile.list
 
 import cafe.adriel.voyager.core.model.ScreenModel
 
