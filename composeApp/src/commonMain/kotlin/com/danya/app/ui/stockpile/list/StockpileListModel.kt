@@ -85,7 +85,7 @@ sealed class StockpileQuantType(private val range: Pair<Float, Float>, val name:
     abstract fun getNameRes(): StringResource
 
     companion object {
-        fun getByName(name: String) = when (name) {
+        fun getByName(name: String): StockpileQuantType = when (name) {
             Volume.name -> Volume
             Amount.name -> Amount
             Percentage.name -> Percentage

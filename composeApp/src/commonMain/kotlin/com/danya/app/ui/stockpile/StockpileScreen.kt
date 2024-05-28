@@ -13,10 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,14 +23,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.danya.app.theme.screenHorizontalPadding
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
-import com.danya.app.ui.stockpile.list.SearchScreen
 import com.danya.app.ui.stockpile.list.StockpileItem
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
@@ -50,43 +49,45 @@ class StockpileScreen : Screen, KoinComponent {
         val navigator = LocalNavigator.currentOrThrow
         Box(Modifier.fillMaxSize()) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(vertical = 52.dp, horizontal = 24.dp),
+                modifier = Modifier.fillMaxSize()
+                    .padding(
+                        vertical = screenHorizontalPadding,
+                        horizontal = screenHorizontalPadding
+                    ),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(list) { item ->
                     StockpileItem(Modifier, item)
                 }
             }
-            Box(
-                Modifier.padding(vertical = 64.dp, horizontal = 36.dp).size(64.dp).clip(CircleShape)
-                    .size(36.dp).align(Alignment.BottomEnd)
-                    .background(MaterialTheme.colorScheme.primary).clickable(
+            Image(
+                FeatherIcons.Plus,
+                modifier = Modifier.padding(vertical = 64.dp, horizontal = 36.dp).size(64.dp)
+                    .clip(CircleShape).align(Alignment.BottomEnd)
+                    .background(MaterialTheme.colorScheme.primary).padding(14.dp).clickable(
                         indication = rememberRipple(), interactionSource = remember {
                             MutableInteractionSource()
                         }
                     ) {
-                        dropdownMenuVisible = !dropdownMenuVisible
-                    }
-            ) {
-                Image(
-                    FeatherIcons.Plus,
-                    modifier = Modifier.align(Alignment.Center),
-                    contentDescription = null
-                )
-                DropdownMenu(
-                    expanded = dropdownMenuVisible,
-                    onDismissRequest = { dropdownMenuVisible = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Create item") },
-                        onClick = { navigator.push(CreateEditStockpileItemScreen(Create)) }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Search Tavria") },
-                        onClick = { navigator.push(SearchScreen()) }
-                    )
-                }
-            }
+                        navigator.push(CreateEditStockpileItemScreen(Create))
+                    },
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(Color.White)
+            )
+            // todo implement search
+//                DropdownMenu(
+//                    expanded = dropdownMenuVisible,
+//                    onDismissRequest = { dropdownMenuVisible = false }
+//                ) {
+//                    DropdownMenuItem(
+//                        text = { Text("Create item") },
+//                        onClick = {  }
+//                    )
+//                    DropdownMenuItem(
+//                        text = { Text("Search Tavria") },
+//                        onClick = { navigator.push(SearchScreen()) }
+//                    )
+//                }
         }
     }
 }
