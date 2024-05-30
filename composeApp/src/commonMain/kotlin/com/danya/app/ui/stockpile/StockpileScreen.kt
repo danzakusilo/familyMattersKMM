@@ -74,7 +74,7 @@ class StockpileScreen : Screen, KoinComponent {
                 contentDescription = "",
                 colorFilter = ColorFilter.tint(Color.White)
             )
-            // todo implement search
+//                todo implement search
 //                DropdownMenu(
 //                    expanded = dropdownMenuVisible,
 //                    onDismissRequest = { dropdownMenuVisible = false }

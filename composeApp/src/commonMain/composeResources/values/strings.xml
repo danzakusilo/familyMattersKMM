@@ -12,4 +12,10 @@
     <string name="percentage_measurement">%</string>
     <string name="weight_measurement">г</string>
     <string name="value_out_of_range">Значення поза межами</string>
+    <string name="category_title">Оберіть категорію</string>
+    <string name="category_vegetables">Овочі</string>
+    <string name="category_fruit">фрукти</string>
+    <string name="category_undefined">Невизначено</string>
+    <string name="category_grain">Крупи</string>
+    <string name="category_candy">Солодке</string>
 </resources>

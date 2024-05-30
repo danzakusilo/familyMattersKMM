@@ -2,6 +2,11 @@ package com.danya.app.ui.stockpile.list
 
 import familyapp.composeapp.generated.resources.Res
 import familyapp.composeapp.generated.resources.amount_measurement
+import familyapp.composeapp.generated.resources.category_candy
+import familyapp.composeapp.generated.resources.category_fruit
+import familyapp.composeapp.generated.resources.category_grain
+import familyapp.composeapp.generated.resources.category_undefined
+import familyapp.composeapp.generated.resources.category_vegetables
 import familyapp.composeapp.generated.resources.fruits_svgrepo_com
 import familyapp.composeapp.generated.resources.ic_grain
 import familyapp.composeapp.generated.resources.percentage_measurement
@@ -31,6 +36,8 @@ sealed class StockpileItemCategory(val name: String) {
 
     abstract fun getIconRes(): DrawableResource
 
+    abstract fun getNameRes(): StringResource
+
     companion object {
         fun getByName(name: String): StockpileItemCategory {
             return when (name) {
@@ -48,11 +55,19 @@ data object Vegetables : StockpileItemCategory("Vegetables") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.fruits_svgrepo_com
     }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_vegetables
+    }
 }
 
 data object Candy : StockpileItemCategory("Candy") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.fruits_svgrepo_com
+    }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_candy
     }
 }
 
@@ -60,17 +75,30 @@ data object Grain : StockpileItemCategory("Grain") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.ic_grain
     }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_grain
+    }
 }
 
 data object Fruit : StockpileItemCategory("Fruit") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.fruits_svgrepo_com
     }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_fruit
+    }
 }
 
 data object Undefined : StockpileItemCategory("Undefined") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.fruits_svgrepo_com
+    }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_undefined
+
     }
 }
 

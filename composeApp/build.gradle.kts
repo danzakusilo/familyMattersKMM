@@ -10,6 +10,10 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+compose.resources {
+    generateResClass = always
+}
+
 kotlin {
     androidTarget {
         compilations.all {
@@ -89,6 +93,7 @@ kotlin {
             implementation(compose.html.core)
             implementation(libs.kstore.storage)
             implementation(npm("yarn", ""))
+            implementation(devNpm("node-polyfill-webpack-plugin", "^2.0.1"))
         }
 
     }

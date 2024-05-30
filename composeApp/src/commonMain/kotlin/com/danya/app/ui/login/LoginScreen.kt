@@ -1,6 +1,5 @@
 package com.danya.app.ui.login
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -73,9 +72,7 @@ class LoginScreen : Screen, KoinComponent {
                     Text(
                         text = "Login",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(16.dp).clickable {
-
-                        }
+                        modifier = Modifier.padding(16.dp)
                     )
 
                     Spacer(modifier = Modifier.weight(1.0f))

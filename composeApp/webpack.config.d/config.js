@@ -1,5 +1,8 @@
 const TerserPlugin = require("terser-webpack-plugin");
-
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+config.plugins.push(
+  new NodePolyfillPlugin()
+)
 config.optimization = config.optimization || {};
 config.optimization.minimize = false;
 config.optimization.minimizer = [
@@ -13,3 +16,10 @@ config.optimization.minimizer = [
         },
     }),
 ];
+config.resolve = {
+    fallback: {
+        fs: false,
+        path: false,
+        crypto: false,
+    },
+};

@@ -1,5 +1,6 @@
 package com.danya.app.ui.stockpile.create
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -35,18 +37,22 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.danya.app.ui.stockpile.StockpileInputModel
+import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
 import com.danya.app.ui.stockpile.list.Amount
 import com.danya.app.ui.stockpile.list.Percentage
+import com.danya.app.ui.stockpile.list.StockpileListModel
 import com.danya.app.ui.stockpile.list.StockpileQuantType
 import com.danya.app.ui.stockpile.list.Undefined
 import com.danya.app.ui.stockpile.list.Volume
 import com.danya.app.ui.stockpile.list.Weight
 import familyapp.composeapp.generated.resources.Res
 import familyapp.composeapp.generated.resources.bottom_limit_title
+import familyapp.composeapp.generated.resources.category_title
 import familyapp.composeapp.generated.resources.initial_value_title
 import familyapp.composeapp.generated.resources.submit
 import familyapp.composeapp.generated.resources.title
 import familyapp.composeapp.generated.resources.value_out_of_range
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -56,14 +62,44 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel<CreateEditStockpileItemScreenModel> { get() }
-        var nameText: String by remember { mutableStateOf("") }
-        var currentQuantText: String by remember { mutableStateOf("") }
-        var limitText: String by remember { mutableStateOf("") }
-        var limitDropdownVisible by remember { mutableStateOf(false) }
-        var initialDropdownVisible by remember { mutableStateOf(false) }
-        var currentQuantType by remember { mutableStateOf<StockpileQuantType>(Amount) }
+        var nameText: String by remember {
+            mutableStateOf(
+                if (mode is Edit) mode.initial.name
+                else ""
+            )
+        }
+        var currentQuantText: String by remember {
+            mutableStateOf(
+                if (mode is Edit) mode.initial.value
+                else ""
+            )
+        }
+        var limitText: String by remember {
+            mutableStateOf(
+                if (mode is Edit) mode.initial.limitValue
+                else ""
+            )
+        }
+
+        var currentQuantType by remember {
+            mutableStateOf(
+                if (mode is Edit) mode.initial.quantType
+                else Amount
+            )
+        }
+
+        var currentCategory by remember {
+            mutableStateOf(
+                if (mode is Edit) mode.initial.category
+                else Undefined
+            )
+        }
+
         val isInitialQuantError by screenModel.quantErrorVisible.collectAsState()
         val isLimitError by screenModel.limitErrorVisible.collectAsState()
+        var limitDropdownVisible by remember { mutableStateOf(false) }
+        var initialDropdownVisible by remember { mutableStateOf(false) }
+        var categoryDropdownVisible by remember { mutableStateOf(false) }
         Box(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 36.dp)) {
             Column {
                 Text(
@@ -202,6 +238,36 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                         }
                     }
                 }
+                Text(
+                    text = stringResource(Res.string.category_title),
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+                Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Box(
+                        modifier = Modifier.padding(start = 16.dp)
+                            .size(width = 80.dp, height = 70.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .border(
+                                1.dp, Color.Black, RoundedCornerShape(6.dp)
+                            )
+                            .weight(7f)
+                            .clickable {
+                                limitDropdownVisible = true
+                            }
+                    ) {
+                        Text(
+                            text = stringResource(currentCategory.getNameRes()),
+                            style = MaterialTheme.typography.headlineLarge,
+                        )
+                    }
+                    Image(
+                        modifier = Modifier.border(1.dp, Color.Black, RoundedCornerShape(8.dp))
+                            .height(70.dp),
+                        painter = painterResource(currentCategory.getIconRes()),
+                        contentDescription = null
+                    )
+                }
             }
             Button(
                 modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
@@ -271,7 +337,8 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
         }
     }
 
-    enum class Mode {
-        Edit, Create
+    sealed class Mode {
+        class Edit(val initial: StockpileListModel) : Mode()
+        data object Create : Mode()
     }
 }
