@@ -33,6 +33,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.danya.app.theme.screenHorizontalPadding
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
+import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
 import com.danya.app.ui.stockpile.list.StockpileItem
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
@@ -57,7 +58,11 @@ class StockpileScreen : Screen, KoinComponent {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(list) { item ->
-                    StockpileItem(Modifier, item)
+                    StockpileItem(Modifier.clickable {
+                        navigator.push(
+                            CreateEditStockpileItemScreen(Edit(item))
+                        )
+                    }, item)
                 }
             }
             Image(

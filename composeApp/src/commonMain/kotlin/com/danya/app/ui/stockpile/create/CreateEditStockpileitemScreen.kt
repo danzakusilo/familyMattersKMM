@@ -39,10 +39,16 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.danya.app.ui.stockpile.StockpileInputModel
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
 import com.danya.app.ui.stockpile.list.Amount
+import com.danya.app.ui.stockpile.list.Candy
+import com.danya.app.ui.stockpile.list.Fruit
+import com.danya.app.ui.stockpile.list.Grain
+import com.danya.app.ui.stockpile.list.Meat
 import com.danya.app.ui.stockpile.list.Percentage
+import com.danya.app.ui.stockpile.list.StockpileItemCategory
 import com.danya.app.ui.stockpile.list.StockpileListModel
 import com.danya.app.ui.stockpile.list.StockpileQuantType
 import com.danya.app.ui.stockpile.list.Undefined
+import com.danya.app.ui.stockpile.list.Vegetables
 import com.danya.app.ui.stockpile.list.Volume
 import com.danya.app.ui.stockpile.list.Weight
 import familyapp.composeapp.generated.resources.Res
@@ -100,6 +106,12 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
         var limitDropdownVisible by remember { mutableStateOf(false) }
         var initialDropdownVisible by remember { mutableStateOf(false) }
         var categoryDropdownVisible by remember { mutableStateOf(false) }
+
+        fun onCategoryDropDownSelected(category: StockpileItemCategory) {
+            currentCategory = category
+            categoryDropdownVisible = false
+        }
+
         Box(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 36.dp)) {
             Column {
                 Text(
@@ -245,7 +257,7 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                 )
                 Row(modifier = Modifier.padding(top = 16.dp)) {
                     Box(
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier
                             .size(width = 80.dp, height = 70.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(
@@ -253,17 +265,54 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                             )
                             .weight(7f)
                             .clickable {
-                                limitDropdownVisible = true
+                                categoryDropdownVisible = true
                             }
                     ) {
                         Text(
+                            modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp),
                             text = stringResource(currentCategory.getNameRes()),
                             style = MaterialTheme.typography.headlineLarge,
                         )
+                        DropdownMenu(expanded = categoryDropdownVisible,
+                            onDismissRequest = {
+                                categoryDropdownVisible = false
+                            }) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(Fruit.getNameRes())) },
+                                onClick = {
+                                    onCategoryDropDownSelected(Fruit)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(Vegetables.getNameRes())) },
+                                onClick = {
+                                    onCategoryDropDownSelected(Vegetables)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(Grain.getNameRes())) },
+                                onClick = {
+                                    onCategoryDropDownSelected(Grain)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(Candy.getNameRes())) },
+                                onClick = {
+                                    onCategoryDropDownSelected(Candy)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(Meat.getNameRes())) },
+                                onClick = {
+                                    onCategoryDropDownSelected(Meat)
+                                }
+                            )
+                        }
                     }
                     Image(
-                        modifier = Modifier.border(1.dp, Color.Black, RoundedCornerShape(8.dp))
-                            .height(70.dp),
+                        modifier = Modifier.padding(start = 16.dp)
+                            .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
+                            .height(70.dp).weight(3f).padding(8.dp),
                         painter = painterResource(currentCategory.getIconRes()),
                         contentDescription = null
                     )
@@ -293,6 +342,7 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                 )
             }
         }
+
     }
 
     @Composable
@@ -324,7 +374,7 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                 onClick = {
                     onOptionSelected(Percentage)
                     onDismiss()
-                }
+                },
             )
 
             DropdownMenuItem(

@@ -5,10 +5,15 @@ import familyapp.composeapp.generated.resources.amount_measurement
 import familyapp.composeapp.generated.resources.category_candy
 import familyapp.composeapp.generated.resources.category_fruit
 import familyapp.composeapp.generated.resources.category_grain
+import familyapp.composeapp.generated.resources.category_meat
 import familyapp.composeapp.generated.resources.category_undefined
 import familyapp.composeapp.generated.resources.category_vegetables
-import familyapp.composeapp.generated.resources.fruits_svgrepo_com
+import familyapp.composeapp.generated.resources.ic_cookies
+import familyapp.composeapp.generated.resources.ic_egg
+import familyapp.composeapp.generated.resources.ic_fruit
 import familyapp.composeapp.generated.resources.ic_grain
+import familyapp.composeapp.generated.resources.ic_meat
+import familyapp.composeapp.generated.resources.ic_vegetables
 import familyapp.composeapp.generated.resources.percentage_measurement
 import familyapp.composeapp.generated.resources.quant_type_amount
 import familyapp.composeapp.generated.resources.quant_type_percentage
@@ -53,7 +58,7 @@ sealed class StockpileItemCategory(val name: String) {
 
 data object Vegetables : StockpileItemCategory("Vegetables") {
     override fun getIconRes(): DrawableResource {
-        return Res.drawable.fruits_svgrepo_com
+        return Res.drawable.ic_vegetables
     }
 
     override fun getNameRes(): StringResource {
@@ -61,9 +66,19 @@ data object Vegetables : StockpileItemCategory("Vegetables") {
     }
 }
 
+data object Meat : StockpileItemCategory("Meat") {
+    override fun getIconRes(): DrawableResource {
+        return Res.drawable.ic_meat
+    }
+
+    override fun getNameRes(): StringResource {
+        return Res.string.category_meat
+    }
+}
+
 data object Candy : StockpileItemCategory("Candy") {
     override fun getIconRes(): DrawableResource {
-        return Res.drawable.fruits_svgrepo_com
+        return Res.drawable.ic_cookies
     }
 
     override fun getNameRes(): StringResource {
@@ -83,7 +98,7 @@ data object Grain : StockpileItemCategory("Grain") {
 
 data object Fruit : StockpileItemCategory("Fruit") {
     override fun getIconRes(): DrawableResource {
-        return Res.drawable.fruits_svgrepo_com
+        return Res.drawable.ic_fruit
     }
 
     override fun getNameRes(): StringResource {
@@ -93,7 +108,7 @@ data object Fruit : StockpileItemCategory("Fruit") {
 
 data object Undefined : StockpileItemCategory("Undefined") {
     override fun getIconRes(): DrawableResource {
-        return Res.drawable.fruits_svgrepo_com
+        return Res.drawable.ic_egg
     }
 
     override fun getNameRes(): StringResource {

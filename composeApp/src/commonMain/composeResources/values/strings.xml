@@ -18,4 +18,5 @@
     <string name="category_undefined">Невизначено</string>
     <string name="category_grain">Крупи</string>
     <string name="category_candy">Солодке</string>
+    <string name="category_meat">М'ясо</string>
 </resources>
