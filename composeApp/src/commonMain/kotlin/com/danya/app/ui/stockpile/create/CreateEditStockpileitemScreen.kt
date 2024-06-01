@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.danya.app.ui.stockpile.StockpileInputModel
+import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
 import com.danya.app.ui.stockpile.list.Amount
 import com.danya.app.ui.stockpile.list.Candy
@@ -111,6 +112,15 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
             currentCategory = category
             categoryDropdownVisible = false
         }
+
+        fun getCurrentInput() =
+            StockpileInputModel(
+                name = nameText,
+                bottomLimitValue = limitText,
+                value = currentQuantText,
+                quantType = currentQuantType,
+                selectedCategory = currentCategory
+            )
 
         Box(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 36.dp)) {
             Column {
@@ -323,15 +333,11 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                     .align(Alignment.BottomCenter),
                 colors = ButtonDefaults.buttonColors(),
                 onClick = {
-                    screenModel.postNewItem(
-                        StockpileInputModel(
-                            name = nameText,
-                            bottomLimitValue = limitText,
-                            value = currentQuantText,
-                            quantType = currentQuantType,
-                            selectedCategory = Undefined
-                        )
-                    )
+                    if (mode is Create) {
+                        screenModel.postNewItem(getCurrentInput())
+                    } else if (mode is Edit) {
+                        screenModel.editItem(mode.initial.id, getCurrentInput())
+                    }
                 },
                 enabled = currentQuantText.isNotBlank() && nameText.isNotBlank() && limitText.isNotBlank()
             ) {
@@ -342,7 +348,6 @@ class CreateEditStockpileItemScreen(private val mode: Mode) : Screen, KoinCompon
                 )
             }
         }
-
     }
 
     @Composable

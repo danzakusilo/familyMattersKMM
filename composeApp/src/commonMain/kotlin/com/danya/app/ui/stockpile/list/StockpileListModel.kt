@@ -26,6 +26,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
 data class StockpileListModel(
+    val id: String,
     val name: String,
     val value: String,
     val category: StockpileItemCategory,

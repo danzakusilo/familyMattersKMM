@@ -31,6 +31,7 @@ class StockpileScreenModel(private val api: StockpileApi) : ScreenModel, KoinCom
                 if (it.isSuccess)
                     items.value = it.getOrNull()?.map { domainItem ->
                         StockpileListModel(
+                            id = domainItem.uid,
                             name = domainItem.name,
                             value = domainItem.initialValue.toString(),
                             limitValue = domainItem.bottomLimitValue.toString(),
