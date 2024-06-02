@@ -35,7 +35,6 @@ class StockpileScreenModel(private val api: StockpileApi) : ScreenModel, KoinCom
                             name = domainItem.name,
                             value = domainItem.initialValue.toString(),
                             limitValue = domainItem.bottomLimitValue.toString(),
-                            isInDeficit = domainItem.initialValue < domainItem.bottomLimitValue,
                             quantType = StockpileQuantType.getByName(domainItem.quantType),
                             category = StockpileItemCategory.getByName(domainItem.category)
                         )

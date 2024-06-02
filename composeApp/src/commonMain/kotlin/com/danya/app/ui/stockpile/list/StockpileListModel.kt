@@ -32,9 +32,15 @@ data class StockpileListModel(
     val category: StockpileItemCategory,
     val limitValue: String,
     val quantType: StockpileQuantType,
-    val isInDeficit: Boolean,
     val imageUrl: String? = null
-)
+) {
+    val isInDeficit: Boolean = value.toFloat() < limitValue.toFloat()
+    val needToBuy: String = if (isInDeficit) {
+        "${limitValue.toFloat() - value.toFloat()}"
+    } else {
+        ""
+    }
+}
 
 
 @Serializable

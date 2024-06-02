@@ -4,7 +4,9 @@ import co.touchlab.kermit.Logger
 import com.danya.app.models.StockpileItemModel
 import com.danya.app.models.StockpilePostModel
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
+import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -34,7 +36,9 @@ class StockpileApiIml : StockpileApi {
         return flow {
             val request = try {
                 Result.success(
-                    Firebase.firestore.collectionGroup(CollectionName).get().documents.map {
+                    Firebase.firestore.collectionGroup(CollectionName).where {
+                        any("userId".equalTo(Firebase.auth.currentUser?.uid))
+                    }.get().documents.map {
                         it.data<StockpileItemModel>().copy(
                             uid = it.id
                         )

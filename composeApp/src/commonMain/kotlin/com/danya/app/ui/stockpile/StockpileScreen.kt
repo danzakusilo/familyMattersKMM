@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,7 +35,7 @@ import com.danya.app.theme.screenHorizontalPadding
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
-import com.danya.app.ui.stockpile.list.StockpileItem
+import com.danya.app.ui.stockpile.list.StockpileListItem
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
 import org.koin.core.component.KoinComponent
@@ -58,11 +59,15 @@ class StockpileScreen : Screen, KoinComponent {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(list) { item ->
-                    StockpileItem(Modifier.clickable {
+                    StockpileListItem(Modifier.clickable {
                         navigator.push(
                             CreateEditStockpileItemScreen(Edit(item))
                         )
                     }, item)
+                    HorizontalDivider(
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                    )
                 }
             }
             Image(

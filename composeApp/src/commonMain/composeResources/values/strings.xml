@@ -19,4 +19,5 @@
     <string name="category_grain">Крупи</string>
     <string name="category_candy">Солодке</string>
     <string name="category_meat">М'ясо</string>
+    <string name="list_deficit_required_prefix">Необхідно докупити:</string>
 </resources>

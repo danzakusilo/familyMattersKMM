@@ -2,6 +2,7 @@ package com.danya.app.ui.stockpile.create
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import co.touchlab.kermit.Logger
 import com.danya.app.models.StockpilePostModel
 import com.danya.app.ui.stockpile.StockpileApi
 import com.danya.app.ui.stockpile.StockpileInputModel
@@ -47,6 +48,11 @@ class CreateEditStockpileItemScreenModel(private val api: StockpileApi) : Screen
                     category = input.selectedCategory.name,
                     userId = Firebase.auth.currentUser?.uid
                         ?: throw AssertionError("User not authenticated when posting new stockpile item")
+                )
+                Logger.d(tag = "post item data", messageString = postObject.toString())
+                Logger.d(
+                    tag = "auth data",
+                    messageString = Firebase.auth.currentUser?.uid ?: "no user id found"
                 )
                 _quantErrorVisible.value = false
                 api.postNewItem(postObject).collectLatest {
