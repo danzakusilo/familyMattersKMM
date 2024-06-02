@@ -21,24 +21,25 @@ class StockpileScreenModel(private val api: StockpileApi) : ScreenModel, KoinCom
 
     val items = MutableStateFlow<List<StockpileListModel>>(emptyList())
 
-    init {
-        getItems()
-    }
+//    init {
+//        getItems("")
+//    }
 
-    private fun getItems() {
+    fun getItems(searchFilter: String) {
         screenModelScope.launch {
             api.getItems().collectLatest {
                 if (it.isSuccess)
-                    items.value = it.getOrNull()?.map { domainItem ->
-                        StockpileListModel(
-                            id = domainItem.uid,
-                            name = domainItem.name,
-                            value = domainItem.initialValue.toString(),
-                            limitValue = domainItem.bottomLimitValue.toString(),
-                            quantType = StockpileQuantType.getByName(domainItem.quantType),
-                            category = StockpileItemCategory.getByName(domainItem.category)
-                        )
-                    } ?: emptyList()
+                    items.value = it.getOrNull()?.filter { it.name.contains(searchFilter) }
+                        ?.map { domainItem ->
+                            StockpileListModel(
+                                id = domainItem.uid,
+                                name = domainItem.name,
+                                value = domainItem.initialValue.toString(),
+                                limitValue = domainItem.bottomLimitValue.toString(),
+                                quantType = StockpileQuantType.getByName(domainItem.quantType),
+                                category = StockpileItemCategory.getByName(domainItem.category)
+                            )
+                        } ?: emptyList()
 
             }
         }

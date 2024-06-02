@@ -48,7 +48,7 @@ class SearchScreen : Screen, KoinComponent {
 
             LazyColumn(modifier = Modifier.padding(top = 12.dp)) {
                 items(items) { item ->
-                    StockpileItem(Modifier, item)
+                    StockpileListItem(Modifier, item)
                 }
             }
         }

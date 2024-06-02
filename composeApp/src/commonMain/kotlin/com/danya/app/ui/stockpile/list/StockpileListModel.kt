@@ -63,6 +63,7 @@ sealed class StockpileItemCategory(val name: String) {
     }
 }
 
+
 data object Vegetables : StockpileItemCategory("Vegetables") {
     override fun getIconRes(): DrawableResource {
         return Res.drawable.ic_vegetables
@@ -123,6 +124,15 @@ data object Undefined : StockpileItemCategory("Undefined") {
 
     }
 }
+
+val Categories = listOf(
+    Vegetables,
+    Meat,
+    Candy,
+    Grain,
+    Fruit,
+    Undefined
+)
 
 @Serializable
 sealed class StockpileQuantType(private val range: Pair<Float, Float>, val name: String) {

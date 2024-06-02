@@ -13,16 +13,3 @@ fun String.trimDecimals(): String {
         this
     }
 }
-
-// generate a Firestore rule to only take StockpileItemModels that belong to the user
-fun String.generateFirestoreRule(): String {
-    return """
-        |service cloud.firestore {
-        |  match /databases/{database}/documents {
-        |    match /$this/{document=**} {
-        |      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
-        |    }
-        |  }
-        |}
-    """.trimMargin()
-}

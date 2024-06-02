@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,10 +34,12 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.danya.app.theme.screenHorizontalPadding
+import com.danya.app.theme.screenTopPadding
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Create
 import com.danya.app.ui.stockpile.create.CreateEditStockpileItemScreen.Mode.Edit
 import com.danya.app.ui.stockpile.list.StockpileListItem
+import com.danya.app.ui.stockpile.list.TopBar
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
 import org.koin.core.component.KoinComponent
@@ -48,27 +52,54 @@ class StockpileScreen : Screen, KoinComponent {
         val screenModel = rememberScreenModel<StockpileScreenModel> { get() }
         val list by screenModel.items.collectAsState()
         var dropdownMenuVisible by remember { mutableStateOf(false) }
+        var categoryDropDownMenuVisible by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.currentOrThrow
-        Box(Modifier.fillMaxSize()) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-                    .padding(
-                        vertical = screenHorizontalPadding,
-                        horizontal = screenHorizontalPadding
-                    ),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(list) { item ->
-                    StockpileListItem(Modifier.clickable {
-                        navigator.push(
-                            CreateEditStockpileItemScreen(Edit(item))
+        LaunchedEffect(this) {
+            screenModel.getItems("")
+        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(Modifier.fillMaxSize()) {
+                TopBar(
+                    modifier = Modifier.padding(top = screenTopPadding)
+                        .padding(horizontal = screenHorizontalPadding),
+                    onBack = { navigator.pop() },
+                    onSearch = { screenModel.getItems(it) },
+                    onFilter = { categoryDropDownMenuVisible = true })
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                        .padding(
+                            vertical = screenHorizontalPadding,
+                            horizontal = screenHorizontalPadding
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(list) { item ->
+                        StockpileListItem(Modifier.clickable {
+                            navigator.push(
+                                CreateEditStockpileItemScreen(Edit(item))
+                            )
+                        }, item)
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
                         )
-                    }, item)
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                    )
+                    }
                 }
+//                todo implement search
+//                DropdownMenu(
+//                    expanded = dropdownMenuVisible,
+//                    onDismissRequest = { dropdownMenuVisible = false }
+//                ) {
+//                    DropdownMenuItem(
+//                        text = { Text("Create item") },
+//                        onClick = {  }
+//                    )
+//                    DropdownMenuItem(
+//                        text = { Text("Search Tavria") },
+//                        onClick = { navigator.push(SearchScreen()) }
+//                    )
+//                }
             }
             Image(
                 FeatherIcons.Plus,
@@ -84,20 +115,6 @@ class StockpileScreen : Screen, KoinComponent {
                 contentDescription = "",
                 colorFilter = ColorFilter.tint(Color.White)
             )
-//                todo implement search
-//                DropdownMenu(
-//                    expanded = dropdownMenuVisible,
-//                    onDismissRequest = { dropdownMenuVisible = false }
-//                ) {
-//                    DropdownMenuItem(
-//                        text = { Text("Create item") },
-//                        onClick = {  }
-//                    )
-//                    DropdownMenuItem(
-//                        text = { Text("Search Tavria") },
-//                        onClick = { navigator.push(SearchScreen()) }
-//                    )
-//                }
         }
     }
 }
